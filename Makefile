@@ -1,3 +1,5 @@
+.PHONY: parser
+
 WATCH = node_modules/.bin/watch src
 BUILD = node_modules/.bin/skewc src/core/*.sk src/lib/*.sk --target=js --verbose
 
@@ -8,6 +10,9 @@ debug: | node_modules
 
 release: | node_modules
 	$(BUILD) src/exports/*.sk --output-file=www/glslx.js --release
+
+parser: | node_modules
+	$(BUILD) src/parser/*.sk --output-file=parser/parser.js --inline-functions
 
 test: | node_modules
 	$(BUILD) src/test/*.sk --output-file=test.js --js-source-map

@@ -1,0 +1,52 @@
+@import {
+  const console dynamic
+  const exports dynamic
+  const module dynamic
+  const require dynamic
+  const window dynamic
+}
+
+namespace GLSLX.Exports {
+  def sourcesFromInput(input dynamic) List<Source> {
+    if input is string {
+      return [Source.new("<stdin>", input)]
+    }
+
+    if input is List<dynamic> {
+      var sources List<Source> = []
+      for i in 0..input.length {
+        sources.append(Source.new(input[i].name, input[i].contents))
+      }
+      return sources
+    }
+
+    return [Source.new(input.name, input.contents)]
+  }
+
+  # Do a non-interactive compile
+  const check = (input dynamic, args dynamic) dynamic => {
+    args = args || ({} as dynamic)
+    var sources = sourcesFromInput(input)
+    var log = Log.new
+    var options = CompilerOptions.new
+
+    if args.disableRewriting { options.compactSyntaxTree = false }
+    if args.prettyPrint { options.removeWhitespace = false }
+    if args.keepSymbols { options.trimSymbols = false }
+
+    var result = Compiler.typeCheck(log, sources, options)
+    return {
+      "log": log,
+      "result": result
+    }
+  }
+
+  @entry
+  def main {
+    var this = (=> dynamic.this)()
+    var root = dynamic.typeof(exports) != "undefined" ? exports : (this.GLSLX = {})
+
+    # API exports
+    root.check = check
+  }
+}

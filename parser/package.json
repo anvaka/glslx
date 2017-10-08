@@ -1,0 +1,12 @@
+{
+  "name": "@anvaka/glsl-parser",
+  "version": "0.1.0",
+  "description": "",
+  "repository": "https://github.com/anvaka/glslx",
+  "license": "mit",
+  "main": "parser.js",
+  "authors": [
+    "evan wallace",
+    "andrei kashcha"
+  ]
+}
