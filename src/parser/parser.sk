@@ -33,6 +33,7 @@ namespace GLSLX.Exports {
     if args.disableRewriting { options.compactSyntaxTree = false }
     if args.prettyPrint { options.removeWhitespace = false }
     if args.keepSymbols { options.trimSymbols = false }
+    if args.globals { options.globals = args.globals }
 
     var result = Compiler.typeCheck(log, sources, options)
     return {

@@ -30,6 +30,7 @@
     this.renameSymbols = GLSLX.RenameSymbols.ALL;
     this.trimSymbols = true;
     this.fileAccess = null;
+    this.globals = null;
   };
 
   GLSLX.ExtensionBehavior = {
@@ -64,6 +65,10 @@
 
     // Generate tokens once
     sources.unshift(new GLSLX.Source('<api>', GLSLX.API));
+
+    if (options.globals != null) {
+      sources.unshift(new GLSLX.Source('<externs_globals>', options.globals));
+    }
 
     for (var i = 0, list = sources, count = list.length; i < count; i = i + 1 | 0) {
       var source = in_List.get(list, i);
@@ -5132,6 +5137,10 @@
 
     if (args.keepSymbols) {
       options.trimSymbols = false;
+    }
+
+    if (args.globals) {
+      options.globals = args.globals;
     }
 
     var result = GLSLX.Compiler.typeCheck(log, sources, options);

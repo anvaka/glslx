@@ -17,6 +17,7 @@ namespace GLSLX {
     var renameSymbols = RenameSymbols.ALL
     var trimSymbols = true
     var fileAccess fn(string, string) Source = null
+    var globals string = null 
   }
 
   enum ExtensionBehavior {
@@ -107,6 +108,9 @@ namespace GLSLX.Compiler {
 
     # Generate tokens once
     sources.prepend(Source.new("<api>", API))
+    if options.globals != null {
+      sources.prepend(Source.new("<externs_globals>", options.globals))
+    }
     for source in sources {
       source.tokens = Tokenizer.tokenize(log, source)
     }
